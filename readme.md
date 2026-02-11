@@ -17,7 +17,7 @@
 
 </div>
 
-### 🔑 ƯU ĐIỂU NỔI BẬT
+### 🔑 ƯU ĐIỂM NỔI BẬT
 - ✅ **Không quảng cáo** - Mã nguồn mở minh bạch  
 - ✅ **Đa nền tảng** - Chạy trên Windows (hỗ trợ Linux/macOS qua điều chỉnh nhỏ)  
 - ✅ **Bảo mật** - Cookies chỉ lưu cục bộ trên máy bạn  
@@ -27,8 +27,8 @@
 ### ⚙️ YÊU CẦU HỆ THỐNG
 ```markdown
 - Windows 7/8/10/11 (ưu tiên)
-- Python 3.6+ (đã cài sẵn trong thư mục python/)
-- File engine: yt-dlp.exe + ffmpeg.exe (đặt trong thư mục `main/engine/`)
+- Python 3.6+ (đã tích hợp sẵn trong thư mục python/)
+- File engine: yt-dlp.exe + ffmpeg.exe (đã sẵn trong thư mục `main/engine/`)
 - Trình duyệt Chrome/Edge (cho extension lấy cookies Facebook)
 ```
 
@@ -129,16 +129,22 @@ download/
    • Nếu thấy "e - 🟢 Khởi động Server Local" → Nhấn `e` để BẬT
    • Nếu thấy "e - 🔴 Tắt Server Local (đang chạy)" → Nhấn `e` để TẮT
 
-💡 CÁCH SỬ DỤNG:
-   1. Khởi động server thành công → Ghi nhớ địa chỉ IP và cổng (port) hiển thị
-   2. Trên điện thoại/máy tính khác (cùng mạng Wi-Fi):
-      • Mở trình duyệt → Truy cập: http://[IP_CỦA_MÁY_BẠN]:[PORT]
-      • Tải video trực tiếp không cần cài đặt gì thêm!
+💡 CÁCH SỬ DỤNG SAU KHI KHỞI ĐỘNG:
+   1. Server khởi động thành công → **BẢNG CMD SẼ HIỂN THỊ**:
+      • 📶 Địa chỉ IP và cổng (port) của máy chủ (ví dụ: http://192.168.1.100:8000)
+      • 🖼️ **MÃ QR** chứa đường dẫn truy cập tự động
    
-⚠️ LƯU Ý: 
+   2. Trên điện thoại/máy tính khác (cùng mạng Wi-Fi):
+      • 📱 **CÁCH 1 (NHANH NHẤT)**: Mở camera/quét QR → Quét mã QR trên màn hình CMD → Tự động truy cập
+      • 💻 **CÁCH 2 (THỦ CÔNG)**: Mở trình duyệt → Nhập địa chỉ IP + cổng (ví dụ: http://192.168.1.100:8000)
+   
+   3. Duyệt và tải video trực tiếp không cần cài đặt gì thêm!
+
+⚠️ LƯU Ý QUAN TRỌNG:
    • Script server.py nằm trong thư mục `main/python/` (đã được cấu hình sẵn trong run.bat)
-   • Tắt tường lửa Windows nếu không kết nối được
-   • Server chỉ hoạt động khi có ít nhất 1 video trong thư mục `finish/`
+   • **Bắt buộc** có ít nhất 1 video trong thư mục `finish/` trước khi khởi động server
+   • Tắt tường lửa Windows nếu không kết nối được từ thiết bị khác
+   • Mã QR chỉ hiển thị khi server.py được cấu hình để sinh QR (kiểm tra file server.py có import qrcode không)
 ```
 
 ---
@@ -151,16 +157,17 @@ download/
 | **Tải về file rỗng/lỗi** | Kiểm tra URL có đúng không? Video có yêu cầu đăng nhập không? |
 | **Server không kết nối** | Tắt tường lửa → Kiểm tra IP máy chủ → Đảm bảo cùng mạng LAN |
 | **Link.txt trống** | Đảm bảo đã dán mã nguồn Facebook vào `source.txt` trước khi chạy |
-| **Lỗi Python không tìm thấy** | Kiểm tra thư mục `main/python/` có chứa đầy đủ file main.py và server.py không |
+| **Không thấy mã QR khi khởi động server** | Kiểm tra file `server.py` có cài thư viện `qrcode` không → Cài bằng lệnh: `pip install qrcode[pil]` |
 
 ---
 
 ### 💡 MẸO SỬ DỤNG HIỆU QUẢ
 - 🔄 **Cập nhật cookies định kỳ** mỗi 3-5 ngày để tránh lỗi Facebook  
-- 📱 **Dùng Server Local** để tải video Facebook/YouTube về điện thoại cực nhanh  
+- 📱 **Dùng Server Local** để tải video Facebook/YouTube về điện thoại cực nhanh qua mã QR  
 - 🌐 **Chế độ 3** hiệu quả nhất với trang web có video nhúng (báo điện tử, blog...)  
 - ⚙️ **Tùy chỉnh luồng tải**: Mở `main/python/main.py` → Tìm `MAX_WORKERS = 6` → Sửa số phù hợp cấu hình máy  
-- 🔁 **Cập nhật công cụ**: Thay thế file `main/python/main.py` khi có phiên bản mới mà không ảnh hưởng đến cấu hình hiện tại
+- 🔁 **Cập nhật công cụ**: Thay thế file `main/python/main.py` khi có phiên bản mới mà không ảnh hưởng đến cấu hình hiện tại  
+- 📶 **Kiểm tra IP nhanh**: Trên CMD gõ `ipconfig` → Tìm dòng "IPv4 Address" để biết địa chỉ IP của máy
 
 ---
 
