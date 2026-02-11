@@ -1,168 +1,206 @@
-# 📹 VIDEO DOWNLOADER - MULTI MODE  
-*✨ Công cụ tải video thông minh từ Facebook, YouTube & hàng trăm trang web khác ✨*
+# 🎬 Video Downloader Multi-Tool
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.7+-blue?style=flat-square&logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/yt--dlp-required-brightgreen?style=flat-square" alt="yt-dlp">
+  <img src="https://img.shields.io/badge/ffmpeg-required-orange?style=flat-square" alt="ffmpeg">
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License">
+</p>
+
+**Video Downloader Multi-Tool** là công cụ tải video/audio mạnh mẽ từ **Facebook**, **YouTube** và **hầu hết các trang web** (HLS, MP4, MP3, iframe, JSON-LD...).  
+Tích hợp **đa luồng**, **trích xuất URL thông minh**, **cookies** và **server local** – tất cả trong một giao diện dòng lệnh đơn giản.
 
 ---
 
-## 🌟 PHẦN 1: GIỚI THIỆU
+## 📦 PHẦN 1: GIỚI THIỆU
 
-<div align="center">
+### ✨ Tính năng nổi bật
 
-| Tính năng | Mô tả chi tiết |
-|-----------|----------------|
-| **📘 Facebook Downloader** | Tải video Facebook chất lượng cao với cơ chế xử lý cookies thông minh (hỗ trợ tải hàng loạt) |
-| **🎥 YouTube Downloader** | Tải video MP4 đa độ phân giải hoặc trích xuất audio MP3 chất lượng cao |
-| **🌐 Universal Mode 3** | Công nghệ quét **10+ chiến lược** thông minh: phát hiện m3u8, iframe, JSON, CDN, meta tags... Tải đa luồng tối ưu tốc độ |
-| **📡 Server Local** | Chia sẻ video qua mạng LAN - tải từ điện thoại/máy tính khác trong cùng mạng |
-| **⚡ Xử lý thông minh** | Tự động chuyển file vào thư mục `finish/`, phát hiện cookies hết hạn, xử lý tên file trùng |
-
-</div>
-
-### 🔑 ƯU ĐIỂM NỔI BẬT
-- ✅ **Không quảng cáo** - Mã nguồn mở minh bạch  
-- ✅ **Đa nền tảng** - Chạy trên Windows (hỗ trợ Linux/macOS qua điều chỉnh nhỏ)  
-- ✅ **Bảo mật** - Cookies chỉ lưu cục bộ trên máy bạn  
-- ✅ **Tối ưu hiệu suất** - Xử lý đa luồng (6 luồng mặc định, có thể tùy chỉnh)  
-- ✅ **Giao diện tiếng Việt** - Thân thiện, hướng dẫn chi tiết từng bước  
-
-### ⚙️ YÊU CẦU HỆ THỐNG
-```markdown
-- Windows 7/8/10/11 (ưu tiên)
-- Python 3.6+ (nếu chạy trực tiếp script)
-- File engine: yt-dlp.exe + ffmpeg.exe (đặt trong thư mục `main/engine/`)
-- Trình duyệt Chrome/Edge (cho extension lấy cookies Facebook)
-```
+✅ **Facebook Video** – Tải video từ post, story, fanpage (cần cookies).  
+✅ **YouTube** – Tải MP4 (chọn độ phân giải) hoặc MP3 chất lượng cao nhất.  
+✅ **Đa Web (Mode 3)** – Quét và tải media từ **bất kỳ website nào**:
+  - HLS (`.m3u8`), DASH (`.mpd`), MP4, MP3, TS segments.
+  - Phát hiện iframe, meta tags, JSON-LD, CDN, URL bị obfuscate.
+  - Chạy **10+ chiến lược trích xuất**, chỉ hiển thị chiến lược **thành công**.
+✅ **Đa luồng** – Tải song song với `6 workers` (có thể tùy chỉnh).  
+✅ **Server Local** – Bật server để các thiết bị trong cùng mạng gửi link tải về máy trung tâm.  
+✅ **Tự động phân loại** – File tải xong được chuyển vào thư mục `finish/` theo từng chế độ.  
+✅ **Hỗ trợ cookies** – Dùng cho Facebook hoặc các trang yêu cầu đăng nhập.  
 
 ---
 
-## 📖 PHẦN 2: HƯỚNG DẪN SỬ DỤNG CHI TIẾT
+## 📁 PHẦN 2: HƯỚNG DẪN SỬ DỤNG
 
-### 📁 CẤU TRÚC THƯ MỤC CHUẨN
+### 📂 2.1. Cấu trúc thư mục (bắt buộc)
+
 ```
-download/
-├── main/
-│   ├── engine/          # ← BẮT BUỘC: Đặt yt-dlp.exe + ffmpeg.exe vào đây
+download/                           # Thư mục gốc (tự đặt tên)
+├── main/                           # Thư mục chính chứa mã nguồn
+│   ├── main.py                     # File chính
+│   ├── server.py                  # (Tự tạo) Server local
+│   ├── engine/                    # Chứa yt-dlp.exe và ffmpeg.exe
 │   │   ├── yt-dlp.exe
 │   │   └── ffmpeg.exe
-│   ├── getlink/         # ← Tự động tạo khi chạy Chế độ Facebook
-│   │   └── link.txt
-│   ├── cookies.txt      # ← Dán cookies Facebook vào đây
-│   ├── source.txt       # ← Dán mã nguồn Facebook vào đây
-│   ├── server.py        # ← (Tùy chọn) File server chia sẻ LAN
-│   └── main.py          # ← Script chính
-├── finish/              # ← VIDEO SAU KHI TẢI XONG ĐỀU Ở ĐÂY!
-│   ├── mode3/           # ← Video từ Chế độ 3
-│   │   └── other/       # ← File phụ (nếu có)
-│   └── ... 
-└── run.bat              # ← CHẠY FILE NÀY ĐỂ KHỞI ĐỘNG
+│   ├── cookies.txt               # Cookies Facebook (export từ trình duyệt)
+│   ├── source.txt                # HTML source Facebook để trích link
+│   └── getlink/                  # Thư mục chứa link.txt sau khi trích
+│       └── link.txt
+└── finish/                       # Tất cả video đã tải xong
+    ├── mode3/                    # Video/audio từ chế độ đa web
+    └── mode3/other/             # File khác (txt, json, …)
 ```
+
+> ⚠️ **Bắt buộc**: Đặt `yt-dlp.exe` và `ffmpeg.exe` trong `main/engine/` **trước khi chạy**.
 
 ---
 
-### 🔒 CHẾ ĐỘ 1: TẢI VIDEO FACEBOOK (HƯỚNG DẪN CHI TIẾT)
+### 🛠️ 2.2. Chuẩn bị
 
-> ⚠️ **LƯU Ý QUAN TRỌNG**:  
-> 🔸 Cookies Facebook **sẽ hết hạn sau 1-7 ngày** - cần cập nhật lại khi tải thất bại  
-> 🔸 Luôn đăng nhập Facebook trên trình duyệt trước khi lấy cookies
-
-#### 📌 CÁC BƯỚC THỰC HIỆN:
-```markdown
-1️⃣ TRUY CẬP VIDEO MONG MUỐN TRÊN TRÌNH DUYỆT
-   → Nhấn chuột phải → Chọn "View Page Source" (Xem mã nguồn trang)
-   → Copy TOÀN BỘ nội dung (Ctrl+A → Ctrl+C)
-
-2️⃣ DÁN VÀO FILE `source.txt`
-   → Mở thư mục `download/main/`
-   → Mở file `source.txt` → Dán nội dung → Lưu file (Ctrl+S)
-
-3️⃣ CÀI EXTENSION LẤY COOKIES
-   → Cài ngay: https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc
-   → (Hoặc tìm "Get cookies.txt Locally" trên Chrome Web Store)
-
-4️⃣ LẤY COOKIES FACEBOOK
-   → Truy cập facebook.com (đảm bảo đã đăng nhập)
-   → Nhấp vào icon extension → Nhấn nút "COPY"
-   → Mở file `cookies.txt` trong thư mục `main/` → Dán nội dung → Lưu file
-
-5️⃣ KHỞI ĐỘNG CÔNG CỤ
-   → Vào thư mục `download/` → Nh double-click file `run.bat`
-   → Chọn `1` (Chế độ Facebook)
-   → Chọn tiếp:
-      • `1`: Nhập URL video thủ công
-      • `2`: Tải hàng loạt từ file `link.txt` (script tự trích xuất link từ source.txt)
-
-6️⃣ XEM KẾT QUẢ
-   → Video tải thành công nằm trong thư mục `finish/`
-```
+| Yêu cầu               | Hướng dẫn                                                                         |
+|-----------------------|-----------------------------------------------------------------------------------|
+| **Python 3.7+**       | Tải từ [python.org](https://www.python.org/downloads/)                           |
+| **yt-dlp.exe**        | [Tải mới nhất](https://github.com/yt-dlp/yt-dlp/releases) → copy vào `engine/`   |
+| **ffmpeg.exe**        | [Tải bản full](https://ffmpeg.org/download.html) → copy vào `engine/`            |
+| **Cookies extension** | [Get cookies.txt LOCALLY](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc) (dùng cho Facebook) |
 
 ---
 
-### 🎥 CHẾ ĐỘ 2: TẢI YOUTUBE
-```markdown
-1. Chạy `run.bat` → Chọn `2`
-2. Dán URL video YouTube
+## 🎯 2.3. Các chế độ tải chi tiết
+
+<details>
+<summary><b>📘 Chế độ 1 – FACEBOOK VIDEO (cần cookies)</b></summary>
+
+#### 🟪 **Bước 1: Lấy source trang**
+- Truy cập bài viết / story Facebook chứa video.
+- Nhấp chuột phải → **View Page Source** (Ctrl+U).
+- **Copy toàn bộ nội dung** → tạo file `main/source.txt` và dán vào.
+
+#### 🟪 **Bước 2: Export cookies**
+- Vào **Facebook.com** (đã đăng nhập).
+- Mở extension **Get cookies.txt LOCALLY** → nhấn **Copy**.
+- Tạo file `main/cookies.txt` và **dán nội dung vừa copy**.
+
+#### 🟪 **Bước 3: Chạy tool và trích link**
+- Mở terminal tại thư mục `download/` (hoặc nhấn `run.bat` nếu có).
+- Chạy:  
+  ```bash
+  python main/main.py
+  ```
+- Chọn **`1`** (Facebook).
+- Tool tự động đọc `source.txt` → sinh danh sách link tại `main/getlink/link.txt`.
+
+#### 🟪 **Bước 4: Tải video**
+- Trong menu Facebook, chọn:
+  - **`1`** – Nhập link thủ công (dán từng link).
+  - **`2`** – Tải tự động từ `link.txt` (đa luồng, ghi trực tiếp vào `finish/`).
+- Video sẽ xuất hiện trong thư mục **`finish/`**.
+
+> ⚠️ **Cookies có hạn**, khi hết hạn chỉ cần export lại và ghi đè vào `cookies.txt`.  
+> 💡 Nếu không có `source.txt`, tool sẽ báo lỗi và hướng dẫn cụ thể.
+
+</details>
+
+---
+
+<details>
+<summary><b>🎥 Chế độ 2 – YOUTUBE</b></summary>
+
+1. Tại menu chính, chọn **`2`**.
+2. Dán URL video YouTube.
 3. Chọn định dạng:
-   • `1`: Tải MP3 (audio chất lượng cao)
-   • `2`: Tải MP4 → Chọn độ phân giải (hoặc `0` để tự động chọn tốt nhất)
-4. File xuất ra tại `finish/`
+   - **`1`** – MP3 (audio, chất lượng cao nhất).
+   - **`2`** – MP4 (video).
+4. Nếu chọn MP4, tool sẽ quét các độ phân giải có sẵn → bạn chọn số tương ứng (hoặc `0` để auto).
+5. Video/audio được lưu vào `finish/`.
+
+</details>
+
+---
+
+<details>
+<summary><b>🌐 Chế độ 3 – ĐA WEB (MODE 3 – mạnh nhất)</b></summary>
+
+Chế độ này **tự động phát hiện và tải mọi nguồn media** từ bất kỳ website nào.
+
+1. Tại menu chính, chọn **`3`**.
+2. Dán URL trang web cần tải (Vimeo, Dailymotion, báo mạng, web phim, nhạc…).
+3. Tool thực hiện:
+   - 🔍 Chạy **10+ chiến lược trích xuất** (HLS, iframe, JSON, meta, CDN, decode…).
+   - 📋 Gom tất cả URL media tìm được.
+   - ⬇️ Tải **đa luồng** (mặc định 6 luồng).
+   - 📁 Phân loại file:
+     - `.mp4`, `.mp3` → `finish/mode3/`
+     - File khác (`.txt`, `.json`, `.ts`…) → `finish/mode3/other/`
+4. Kết thúc, tool hiển thị **bảng tổng kết chỉ với các chiến lược THÀNH CÔNG**.
+
+✅ Hỗ trợ: `.m3u8`, `.mpd`, `.mp4`, `.mp3`, `.ts`, iframe, JSON-LD, Open Graph, Twitter Card, CDN, obfuscated URL…
+
+</details>
+
+---
+
+<details>
+<summary><b>🖧 TÍNH NĂNG SERVER LOCAL</b></summary>
+
+Cho phép các thiết bị khác trong cùng mạng **gửi link tải về máy tính chạy tool**.
+
+1. Tạo file `main/server.py` (ví dụ dùng Flask hoặc http.server).
+2. Trong menu chính, nhấn **`e`**:
+   - Nếu server chưa chạy → **bật**.
+   - Nếu server đang chạy → **tắt**.
+3. Các thiết bị khác truy cập `http://<IP_máy_tính>:<port>` và gửi URL.
+4. Tool sẽ tự động tải và lưu vào `finish/`.
+
+> 💡 Bạn có thể tự viết `server.py` đơn giản để nhận dữ liệu qua JSON hoặc form.
+
+</details>
+
+---
+
+## ⌨️ 2.4. Tổng hợp lệnh nhanh
+
+| Hành động                    | Lệnh / Phím tắt                      |
+|-----------------------------|--------------------------------------|
+| Chạy tool                   | `python main/main.py`               |
+| Chế độ Facebook             | `1` → chọn `1` (thủ công) / `2` (tự động) |
+| Chế độ YouTube              | `2` → dán link → chọn loại file     |
+| Chế độ Đa Web (Mode 3)      | `3` → dán link                      |
+| Bật/Tắt server local        | `e`                                 |
+| Thoát tool                  | `q`                                 |
+
+---
+
+## ⚙️ 2.5. Tùy chỉnh nâng cao
+
+Bạn có thể điều chỉnh các thông số trong file `main.py`:
+
+```python
+MAX_WORKERS = 6                # Số luồng tải đồng thời cho Mode 3
+MODE1_MAX_WORKERS = 6         # Số luồng tải đồng thời cho Facebook
 ```
 
 ---
 
-### 🌐 CHẾ ĐỘ 3: TẢI TỪ MỌI TRANG WEB (MODE 3 - ĐA LUỒNG)
-```markdown
-1. Chạy `run.bat` → Chọn `3`
-2. Dán URL trang web chứa video (báo, blog, diễn đàn...)
-3. Công cụ TỰ ĐỘNG:
-   • Quét 10+ chiến lược phát hiện link ẩn
-   • Tải đồng thời nhiều luồng
-   • Phân loại file: MP4/MP3 vào `finish/mode3/`, file khác vào `finish/mode3/other/`
-4. Xem kết quả trong thư mục `finish/`
-```
+## ❓ 2.6. Khắc phục sự cố thường gặp
+
+| Vấn đề                                  | Nguyên nhân & Cách xử lý                                                                           |
+|-----------------------------------------|----------------------------------------------------------------------------------------------------|
+| **Thiếu yt-dlp.exe / ffmpeg.exe**       | Tải và đặt đúng thư mục `main/engine/`. Tool sẽ báo lỗi cụ thể.                                   |
+| **Facebook không tải được**             | Cookies hết hạn → export lại cookies.txt.                                                         |
+| **Không tìm thấy link trong source.txt**| Source trang không chứa pattern video Facebook → thử story khác hoặc dùng link thủ công.          |
+| **Mode 3 không tải được file nào**      | Trang web có DRM, yêu cầu JavaScript, hoặc token tạm thời. Tool đã cố gắng hết các chiến lược.   |
+| **Server không hoạt động**              | Kiểm tra file `server.py` có tồn tại không. Viết lại server đơn giản hoặc dùng `http.server`.     |
 
 ---
 
-### 🌍 KHỞI ĐỘNG SERVER LOCAL (CHIA SẺ QUA MẠNG LAN)
-```markdown
-✅ TRONG MENU CHÍNH:
-   • Nếu thấy "e - 🟢 Khởi động Server Local" → Nhấn `e` để BẬT
-   • Nếu thấy "e - 🔴 Tắt Server Local (đang chạy)" → Nhấn `e` để TẮT
+## 📄 Giấy phép
 
-💡 CÁCH SỬ DỤNG:
-   1. Khởi động server thành công → Ghi nhớ địa chỉ IP và cổng (port) hiển thị
-   2. Trên điện thoại/máy tính khác (cùng mạng Wi-Fi):
-      • Mở trình duyệt → Truy cập: http://[IP_CỦA_MÁY_BẠN]:[PORT]
-      • Tải video trực tiếp không cần cài đặt gì thêm!
-   
-⚠️ LƯU Ý: 
-   • Cần có file `server.py` trong thư mục `main/` (script sẽ báo lỗi nếu thiếu)
-   • Tắt tường lửa Windows nếu không kết nối được
-```
+Dự án được phân phối dưới giấy phép **MIT**.  
+Vui lòng đọc file `LICENSE` để biết thêm chi tiết.
 
 ---
 
-### ❗ XỬ LÝ SỰ CỐ THƯỜNG GẶP
-| Vấn đề | Giải pháp |
-|--------|-----------|
-| **"THIẾU FILE ENGINE"** | Tải yt-dlp.exe + ffmpeg.exe → Đặt đúng vào `main/engine/` |
-| **"COOKIES ĐÃ HẾT HẠN"** | Lặp lại Bước 4 & 5 trong hướng dẫn Facebook |
-| **Tải về file rỗng/lỗi** | Kiểm tra URL có đúng không? Video có yêu cầu đăng nhập không? |
-| **Server không kết nối** | Tắt tường lửa → Kiểm tra IP máy chủ → Đảm bảo cùng mạng LAN |
-| **Link.txt trống** | Đảm bảo đã dán mã nguồn Facebook vào `source.txt` trước khi chạy |
-
----
-
-### 💡 MẸO SỬ DỤNG HIỆU QUẢ
-- 🔄 **Cập nhật cookies định kỳ** mỗi 3-5 ngày để tránh lỗi Facebook  
-- 📱 **Dùng Server Local** để tải video Facebook/YouTube về điện thoại cực nhanh  
-- 🌐 **Chế độ 3** hiệu quả nhất với trang web có video nhúng (báo điện tử, blog...)  
-- ⚙️ **Tùy chỉnh luồng tải**: Mở `main.py` → Tìm `MAX_WORKERS = 6` → Sửa số phù hợp cấu hình máy  
-
----
-
-<div align="center">
-
-> 🌈 **CHÚC BẠN SỬ DỤNG CÔNG CỤ HIỆU QUẢ!**  
-> 🙏 *Nếu thấy hữu ích, hãy ⭐ cho repository này nhé!*  
-> 🔒 **LƯU Ý PHÁP LÝ**: Chỉ sử dụng cho mục đích cá nhân, tuân thủ bản quyền nội dung  
-
-</div>
+<p align="center">
+  <b>🎉 Chúc bạn tải video thành công! 🎉</b><br>
+  <i>Nếu gặp lỗi hoặc có ý tưởng, hãy mở issue hoặc tạo pull request.</i>
+</p>
